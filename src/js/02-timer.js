@@ -3,9 +3,15 @@ import "flatpickr/dist/flatpickr.min.css"
 const flatpickr = require("flatpickr");
 
 
+const startTime = document.querySelector('#datetime-picker');
+const startBtn = document.querySelector('button[data-start]');
+const timerWindow = document.querySelector('.timer');
+const timerDays = timerWindow.querySelector('span[data-days]');
+const timerHours = timerWindow.querySelector('span[data-hours]');
+const timerMinutes = timerWindow.querySelector('span[data-minutes]');
+const timerSeconds = timerWindow.querySelector('span[data-seconds]');
 
-
-
+// const window.alert("Please choose a date in the future.")
 
 const options = {
   enableTime: true,
@@ -17,8 +23,6 @@ const options = {
   },
 };
 
-
-
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -27,17 +31,54 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  const days = pad(Math.floor(ms / day));
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hours = pad(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = pad(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = pad(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+function pad(value) {
+  return String(value).padStart(2, '0');
+};
+
+isActive = false;
+
+const timer = {
+  start() {
+    if (this.isActive) {
+      window.alert("Sorry, timer is active.")
+       return;
+    }
+      this.isActive = true;
+
+    const startTime = Date.now();
+
+    setInterval(() => {
+      const currentTime = Date.now();
+      const countDown = currentTime - startTime;
+      const { days, hours, minutes, seconds } = convertMs(countDown);
+
+      console.log(`${days}:${hours}:${minutes}:${seconds}`);
+
+      
+        timerDays.textContent = `${days}`;
+        timerHours.textContent = `${hours}`;
+        timerMinutes.textContent = `${minutes}`;
+        timerSeconds.textContent = `${seconds}`;
+      
+
+    }, 1000);
+  },
+};
+
+startBtn.addEventListener('click', () => {
+  timer.start();
+})
+
+
+
