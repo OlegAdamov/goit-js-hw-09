@@ -1,17 +1,18 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css"
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+
 const flatpickr = require("flatpickr");
-
-
-const startTime = document.querySelector('#datetime-picker');
-const startBtn = document.querySelector('button[data-start]');
+const windowTime = document.querySelector('#datetime-picker');
+const startBtn = document.querySelector('[data-start]');
 const timerWindow = document.querySelector('.timer');
-const timerDays = timerWindow.querySelector('span[data-days]');
-const timerHours = timerWindow.querySelector('span[data-hours]');
-const timerMinutes = timerWindow.querySelector('span[data-minutes]');
-const timerSeconds = timerWindow.querySelector('span[data-seconds]');
+const timerDays = timerWindow.querySelector('[data-days]');
+const timerHours = timerWindow.querySelector('[data-hours]');
+const timerMinutes = timerWindow.querySelector('[data-minutes]');
+const timerSeconds = timerWindow.querySelector('[data-seconds]');
 
-// const window.alert("Please choose a date in the future.")
+let start = null;
 
 const options = {
   enableTime: true,
@@ -19,67 +20,56 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-  },
+    if (selectedDates[0] < new Date().getTime()) {
+      startBtn.disabled = true;
+      return Notify.failure("Please choose a date in the future.");
+    }
+      startBtn.disabled = false;
+
+    const timer = () =>  {
+      start = setInterval(() => {
+
+        startBtn.disabled = true;
+
+          const startTime = new Date();
+          let countDown = selectedDates[0] - startTime;
+          const { days, hours, minutes, seconds } = convertMs(countDown);
+    
+          timerDays.textContent = `${days}`;
+          timerHours.textContent = `${hours}`;
+          timerMinutes.textContent = `${minutes}`;
+          timerSeconds.textContent = `${seconds}`;
+        // console.log(` ${days}, ${hours}, ${minutes}, ${seconds} `)  
+        
+        windowTime.disabled = true;
+
+               if (countDown < 1000) {
+                 clearTimeout(start);
+                return Notify.success("Congratulation, time is Ended.");
+        }
+      
+      }, 1000)
+      }
+      startBtn.addEventListener('click', timer)
+    },
 };
 
-function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  // Remaining days
-  const days = pad(Math.floor(ms / day));
-  // Remaining hours
-  const hours = pad(Math.floor((ms % day) / hour));
-  // Remaining minutes
-  const minutes = pad(Math.floor(((ms % day) % hour) / minute));
-  // Remaining seconds
-  const seconds = pad(Math.floor((((ms % day) % hour) % minute) / second));
-
-  return { days, hours, minutes, seconds };
-}
+flatpickr("#datetime-picker", options);
 
 function pad(value) {
   return String(value).padStart(2, '0');
 };
 
-isActive = false;
+function convertMs(ms) {
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
 
-const timer = {
-  start() {
-    if (this.isActive) {
-      window.alert("Sorry, timer is active.")
-       return;
-    }
-      this.isActive = true;
+  const days = pad(Math.floor(ms / day));
+  const hours = pad(Math.floor((ms % day) / hour));
+  const minutes = pad(Math.floor(((ms % day) % hour) / minute));
+  const seconds = pad(Math.floor((((ms % day) % hour) % minute) / second));
 
-    const startTime = Date.now();
-
-    setInterval(() => {
-      const currentTime = Date.now();
-      const countDown = currentTime - startTime;
-      const { days, hours, minutes, seconds } = convertMs(countDown);
-
-      console.log(`${days}:${hours}:${minutes}:${seconds}`);
-
-      
-        timerDays.textContent = `${days}`;
-        timerHours.textContent = `${hours}`;
-        timerMinutes.textContent = `${minutes}`;
-        timerSeconds.textContent = `${seconds}`;
-      
-
-    }, 1000);
-  },
-};
-
-
-startBtn.addEventListener('click', () => {
-  timer.start();
-})
-
-
-
+  return { days, hours, minutes, seconds };
+}
