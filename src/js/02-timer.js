@@ -3,7 +3,7 @@ import "flatpickr/dist/flatpickr.min.css"
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
-const flatpickr = require("flatpickr");
+// const flatpickr = require("flatpickr");
 const windowTime = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
 const timerWindow = document.querySelector('.timer');
@@ -54,7 +54,7 @@ const options = {
     },
 };
 
-flatpickr(windowTime, options);
+flatpickr("#datetime-picker", options);
 
 function pad(value) {
   return String(value).padStart(2, '0');

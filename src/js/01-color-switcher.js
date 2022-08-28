@@ -5,7 +5,7 @@ const onBodyPage = document.querySelector('body');
 const COLOR_CHANGE_DELAY = 1000;
 
 let intervalID = null;
-isActive = false;
+let isActive = false;
   
 const onStartChangeColorPage = () => {
         if (this.isActive) {
