@@ -4,7 +4,7 @@ const onStoptBtn = document.querySelector('button[data-stop]');
 const onBodyPage = document.querySelector('body');
 const COLOR_CHANGE_DELAY = 1000;
 
-  intervalID = null;
+let intervalID = null;
 isActive = false;
   
 const onStartChangeColorPage = () => {

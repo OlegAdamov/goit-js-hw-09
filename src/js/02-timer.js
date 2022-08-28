@@ -54,7 +54,7 @@ const options = {
     },
 };
 
-flatpickr("#datetime-picker", options);
+flatpickr(windowTime, options);
 
 function pad(value) {
   return String(value).padStart(2, '0');
