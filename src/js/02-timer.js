@@ -76,6 +76,7 @@ const timer = {
   },
 };
 
+
 startBtn.addEventListener('click', () => {
   timer.start();
 })
