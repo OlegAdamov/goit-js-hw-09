@@ -6,11 +6,11 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const onFormPromises = document.querySelector('.form');
 
 const onFormDelay = document.querySelector('[name="delay"]');
-console.log('onFormDelay', onFormDelay)
+// console.log('onFormDelay', onFormDelay)
 const onFormStep = document.querySelector('[name="step"]');
-console.log('onFormStep', onFormStep)
+// console.log('onFormStep', onFormStep)
 const onFormAmount = document.querySelector('[name="amount"]');
-console.log('onFormAmount', onFormAmount)
+// console.log('onFormAmount', onFormAmount)
 
 onFormPromises.addEventListener('submit', onFormSubmit);
 
@@ -19,11 +19,11 @@ function onFormSubmit(event) {
   event.preventDefault();
 
   let delay = Number(onFormDelay.value);
-  console.log('delay', delay)
+  // console.log('delay', delay)
   const step = Number(onFormStep.value);
-  console.log('step', step)
+  // console.log('step', step)
   const amount = Number(onFormAmount.value);
-  console.log('amount', amount)
+  // console.log('amount', amount)
 
   for (let i = 1; i <= amount; i += 1) {
     createPromise(i, delay)
@@ -52,18 +52,3 @@ function createPromise(position, delay) {
   }, delay)
   })
 }
-
-
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
-
-
-//     return Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms.`);
-//     return Notify.failure(`❌ Rejected promise ${position} in ${delay}ms.`);
-
-       

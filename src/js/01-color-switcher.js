@@ -14,7 +14,6 @@ const onStartChangeColorPage = () => {
       isActive = true;
   intervalID = setInterval(() => {
 
-      // const onNewColor = `${getRandomHexColor()}`
       onBodyPage.style.backgroundColor = `${getRandomHexColor()}`;
   }, COLOR_CHANGE_DELAY)
 }
