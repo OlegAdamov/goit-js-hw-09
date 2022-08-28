@@ -8,11 +8,11 @@ let intervalID = null;
 let isActive = false;
   
 const onStartChangeColorPage = () => {
-        if (this.isActive) {
+        if (isActive) {
     return;
     }
-      this.isActive = true;
-  this.intervalID = setInterval(() => {
+      isActive = true;
+  intervalID = setInterval(() => {
 
       // const onNewColor = `${getRandomHexColor()}`
       onBodyPage.style.backgroundColor = `${getRandomHexColor()}`;
@@ -21,8 +21,8 @@ const onStartChangeColorPage = () => {
 
 
 const onStopChangeColorPage = () => {
-  clearInterval(this.intervalID);
-this.isActive = false;
+  clearInterval(intervalID);
+isActive = false;
 }
 
 onStartBtn.addEventListener('click', onStartChangeColorPage);
