@@ -11,7 +11,9 @@ const onStartChangeColorPage = () => {
         if (isActive) {
     return;
     }
-      isActive = true;
+  isActive = true;
+  onStartBtn.disabled = true;
+
   intervalID = setInterval(() => {
 
       onBodyPage.style.backgroundColor = `${getRandomHexColor()}`;
@@ -21,7 +23,9 @@ const onStartChangeColorPage = () => {
 
 const onStopChangeColorPage = () => {
   clearInterval(intervalID);
-isActive = false;
+  isActive = false;
+    onStartBtn.disabled = false;
+
 }
 
 onStartBtn.addEventListener('click', onStartChangeColorPage);
